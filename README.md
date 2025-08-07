@@ -429,7 +429,7 @@ env.export('.env.public', {
 
 <div align="center">
 
-This project is licensed under the GPL-3.0 License.
+This project is licensed under the BSD-2-Clause License.
 
 ---
 

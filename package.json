@@ -4,7 +4,8 @@
   "description": "This module loads environment variables from .env file.",
   "keywords": [
     "env",
-    "dotenv"
+    "dotenv",
+    "VectroLabs"
   ],
   "homepage": "https://github.com/VectroLabs/env#readme",
   "bugs": {
@@ -14,10 +15,19 @@
     "type": "git",
     "url": "git+https://github.com/VectroLabs/env.git"
   },
-  "license": "GPL-3.0",
+  "license": "BSD-2-Clause",
   "author": "VectroLabs <vectrolabs.official@gmail.com>",
   "type": "commonjs",
   "main": "lib/main.js",
+  "exports": {
+    ".": {
+      "require": "./lib/main.js",
+      "import": "./lib/main.mjs"
+    }
+  },
+  "files": [
+    "lib/"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

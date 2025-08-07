@@ -1,0 +1,423 @@
+
+{
+  "hero": {
+    "title": "@vectrolabs/env",
+    "description": "A powerful, feature-rich environment variable loader for Node.js with advanced schema validation, type conversion, and variable expansion.",
+    "installation": "npm install @vectrolabs/env",
+    "badges": [
+      {
+        "src": "https://img.shields.io/npm/v/@vectrolabs/env?style=flat-square",
+        "alt": "npm version"
+      },
+      {
+        "src": "https://img.shields.io/github/license/VectroLabs/env?style=flat-square",
+        "alt": "License"
+      },
+      {
+        "src": "https://img.shields.io/node/v/@vectrolabs/env?style=flat-square",
+        "alt": "Node.js Version"
+      }
+    ]
+  },
+  "features": [
+    {
+      "icon": "🔧",
+      "title": "Schema Validation",
+      "description": "Validate and type-convert environment variables with comprehensive error handling"
+    },
+    {
+      "icon": "🔄",
+      "title": "Variable Expansion",
+      "description": "Support for ${VAR} and $VAR syntax with circular reference detection"
+    },
+    {
+      "icon": "📝",
+      "title": "Type Conversion",
+      "description": "Convert to string, number, boolean, array, or JSON with smart defaults"
+    },
+    {
+      "icon": "🛡️",
+      "title": "Error Handling",
+      "description": "Comprehensive error messages and validation with detailed feedback"
+    },
+    {
+      "icon": "🎯",
+      "title": "Flexible Loading",
+      "description": "Multiple loading options and configurations for different environments"
+    },
+    {
+      "icon": "📤",
+      "title": "Export Functionality",
+      "description": "Generate .env files from current environment variables"
+    }
+  ],
+  "sections": [
+    {
+      "id": "quick-start",
+      "title": "Quick Start",
+      "icon": "fas fa-rocket",
+      "description": "Get started with @vectrolabs/env in minutes",
+      "content": [
+        {
+          "type": "text",
+          "content": "<p>The fastest way to get started is with the <code>config()</code> method:</p>"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "title": "Basic Usage",
+          "content": "const env = require('@vectrolabs/env');\n\n// Load .env file and populate process.env\nenv.config();\n\nconsole.log(process.env.DATABASE_URL);"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "title": "With Options",
+          "content": "const result = env.load({\n  file: '.env.local',\n  override: true,\n  schema: {\n    required: ['DATABASE_URL'],\n    variables: {\n      PORT: { type: 'number', default: 3000 },\n      DEBUG: { type: 'boolean', default: false }\n    }\n  }\n});\n\nconsole.log('Loaded variables:', result);"
+        }
+      ]
+    },
+    {
+      "id": "api-reference",
+      "title": "API Reference",
+      "icon": "fas fa-code",
+      "description": "Complete API documentation for all available methods",
+      "content": [
+        {
+          "type": "api",
+          "name": "load(options)",
+          "description": "Loads environment variables from a .env file with full configuration support.",
+          "parameters": [
+            {
+              "name": "options",
+              "type": "Object",
+              "optional": true,
+              "description": "Configuration options"
+            },
+            {
+              "name": "options.file",
+              "type": "string",
+              "optional": true,
+              "default": "'.env'",
+              "description": "Path to .env file"
+            },
+            {
+              "name": "options.override",
+              "type": "boolean",
+              "optional": true,
+              "default": "false",
+              "description": "Override existing process.env variables"
+            },
+            {
+              "name": "options.encoding",
+              "type": "string",
+              "optional": true,
+              "default": "'utf8'",
+              "description": "File encoding"
+            },
+            {
+              "name": "options.schema",
+              "type": "Object",
+              "optional": true,
+              "description": "Schema for validation and type conversion"
+            }
+          ],
+          "returns": "Object with parsed environment variables",
+          "example": "const result = env.load({\n  file: '.env.production',\n  override: true,\n  schema: {\n    required: ['DATABASE_URL'],\n    variables: {\n      PORT: { type: 'number', default: 8080 }\n    }\n  }\n});"
+        },
+        {
+          "type": "api",
+          "name": "parse(content)",
+          "description": "Parses .env file content into key-value pairs.",
+          "parameters": [
+            {
+              "name": "content",
+              "type": "string",
+              "description": "Raw .env file content"
+            }
+          ],
+          "returns": "Object with parsed variables",
+          "example": "const content = 'PORT=3000\\nDEBUG=true';\nconst parsed = env.parse(content);\n// { PORT: '3000', DEBUG: 'true' }"
+        },
+        {
+          "type": "api",
+          "name": "config(options)",
+          "description": "Convenience method that loads and populates process.env in one call.",
+          "parameters": [
+            {
+              "name": "options",
+              "type": "Object",
+              "optional": true,
+              "description": "Same as load() options"
+            }
+          ],
+          "returns": "Object with parsed property containing the variables",
+          "example": "const { parsed } = env.config({ file: '.env.local' });"
+        },
+        {
+          "type": "api",
+          "name": "generate(options)",
+          "description": "Generates .env file content from environment variables.",
+          "parameters": [
+            {
+              "name": "options",
+              "type": "Object",
+              "optional": true,
+              "description": "Generation options"
+            },
+            {
+              "name": "options.source",
+              "type": "Object",
+              "optional": true,
+              "default": "process.env",
+              "description": "Source object"
+            },
+            {
+              "name": "options.include",
+              "type": "Array",
+              "optional": true,
+              "description": "Keys to include"
+            },
+            {
+              "name": "options.exclude",
+              "type": "Array",
+              "optional": true,
+              "default": "[]",
+              "description": "Keys to exclude"
+            },
+            {
+              "name": "options.sort",
+              "type": "boolean",
+              "optional": true,
+              "default": "true",
+              "description": "Sort keys alphabetically"
+            }
+          ],
+          "returns": "String with .env file content",
+          "example": "const content = env.generate({\n  source: { PORT: '3000', DEBUG: 'true' },\n  exclude: ['NODE_ENV']\n});"
+        },
+        {
+          "type": "api",
+          "name": "export(filePath, options)",
+          "description": "Saves generated .env content to a file.",
+          "parameters": [
+            {
+              "name": "filePath",
+              "type": "string",
+              "description": "Target file path"
+            },
+            {
+              "name": "options",
+              "type": "Object",
+              "optional": true,
+              "description": "Same as generate() options"
+            }
+          ],
+          "returns": "void",
+          "example": "env.export('.env.backup', {\n  exclude: ['TEMP_VAR']\n});"
+        }
+      ]
+    },
+    {
+      "id": "schema-validation",
+      "title": "Schema Validation",
+      "icon": "fas fa-shield-alt",
+      "description": "Powerful schema validation and type conversion capabilities",
+      "content": [
+        {
+          "type": "text",
+          "content": "<p>Schemas provide powerful validation and type conversion capabilities for your environment variables:</p>"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "title": "Complete Schema Example",
+          "content": "const schema = {\n  // Required variables (must be present and non-empty)\n  required: ['DATABASE_URL', 'API_SECRET'],\n  \n  // Variable definitions with types and defaults\n  variables: {\n    // Numbers\n    PORT: { type: 'number', default: 3000 },\n    TIMEOUT: { type: 'number' },\n    \n    // Booleans\n    DEBUG: { type: 'boolean', default: false },\n    ENABLE_CACHE: { type: 'boolean' },\n    \n    // Arrays (comma-separated)\n    ALLOWED_HOSTS: { type: 'array', default: ['localhost'] },\n    CORS_ORIGINS: { type: 'array' },\n    \n    // JSON objects\n    DATABASE_CONFIG: { type: 'json' },\n    FEATURE_FLAGS: { type: 'json', default: {} },\n    \n    // Strings (default type)\n    APP_NAME: { default: 'My App' },\n    LOG_LEVEL: { type: 'string' }\n  }\n};\n\nconst result = env.load({ schema });"
+        },
+        {
+          "type": "table",
+          "headers": ["Type", "Description", "Examples"],
+          "rows": [
+            ["string", "Plain text (default)", "\"Hello World\""],
+            ["number", "Numeric values", "42, 3.14, Infinity"],
+            ["boolean", "Boolean values", "true, false, 1, 0, yes, no"],
+            ["array", "Comma-separated lists", "\"a,b,c\" → ['a', 'b', 'c']"],
+            ["json", "JSON objects/arrays", "'{\"key\": \"value\"}'"]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "variable-expansion",
+      "title": "Variable Expansion",
+      "icon": "fas fa-expand-arrows-alt",
+      "description": "Advanced variable expansion with cycle detection",
+      "content": [
+        {
+          "type": "text",
+          "content": "<p>The library supports variable expansion with both <code>${VAR}</code> and <code>$VAR</code> syntax:</p>"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "title": ".env file with variable expansion",
+          "content": "# Basic expansion\nBASE_URL=https://api.example.com\nAPI_ENDPOINT=${BASE_URL}/v1\nDATABASE_URL=postgres://user:pass@${DB_HOST}:${DB_PORT}/mydb\n\n# Advanced expansion\nHOME_DIR=/home/user\nCONFIG_DIR=${HOME_DIR}/config\nLOG_FILE=${CONFIG_DIR}/app.log\n\n# Using $VAR syntax\nPATH_VAR=$HOME/bin:$PATH"
+        },
+        {
+          "type": "grid",
+          "items": [
+            {
+              "title": "✅ Circular Reference Detection",
+              "content": "Prevents infinite loops by detecting circular references between variables"
+            },
+            {
+              "title": "✅ Nested Variable Expansion",
+              "content": "Support for multiple levels of variable expansion with depth limits"
+            },
+            {
+              "title": "✅ Fallback to process.env",
+              "content": "If variable not found in .env, falls back to existing process.env"
+            },
+            {
+              "title": "✅ Depth Limit Protection",
+              "content": "Maximum 100 expansion levels to prevent deep recursion attacks"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "file-format",
+      "title": "File Format Support",
+      "icon": "fas fa-file-alt",
+      "description": "Comprehensive .env file format support",
+      "content": [
+        {
+          "type": "code",
+          "language": "bash",
+          "title": "Basic Syntax",
+          "content": "# Comments start with #\nDATABASE_URL=postgres://localhost/mydb\nAPI_KEY=your-secret-key\n\n# Quoted values\nAPP_NAME=\"My Awesome App\"\nDESCRIPTION='This is a \"quoted\" string'\n\n# Multi-line values with backslash\nLONG_TEXT=This is a very long \\\ntext that spans multiple \\\nlines in the file\n\n# Empty values\nOPTIONAL_VAR="
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "title": "Advanced Features",
+          "content": "# Variable expansion\nBASE_DIR=/app\nLOG_DIR=${BASE_DIR}/logs\nCONFIG_FILE=${BASE_DIR}/config/app.json\n\n# Arrays (comma-separated)\nALLOWED_IPS=192.168.1.1,192.168.1.2,127.0.0.1\nCORS_ORIGINS=http://localhost:3000,https://example.com\n\n# JSON configuration\nDATABASE_CONFIG={\"host\":\"localhost\",\"port\":5432,\"ssl\":true}\nFEATURE_FLAGS={\"newUI\":true,\"betaFeatures\":false}\n\n# Boolean values\nDEBUG=true\nENABLE_LOGGING=yes\nMAINTENANCE_MODE=off"
+        }
+      ]
+    },
+    {
+      "id": "error-handling",
+      "title": "Error Handling",
+      "icon": "fas fa-exclamation-triangle",
+      "description": "Comprehensive error handling with detailed messages",
+      "content": [
+        {
+          "type": "text",
+          "content": "<p>The library provides comprehensive error handling with detailed messages for various scenarios:</p>"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "title": "Error Handling Example",
+          "content": "try {\n  const result = env.load({\n    schema: {\n      required: ['DATABASE_URL'],\n      variables: {\n        PORT: { type: 'number' }\n      }\n    }\n  });\n} catch (error) {\n  console.error('Environment loading failed:', error.message);\n  // Detailed error messages for:\n  // - Missing required variables\n  // - Type conversion failures\n  // - Circular references\n  // - File access issues\n}"
+        },
+        {
+          "type": "grid",
+          "items": [
+            {
+              "title": "Missing Required Variables",
+              "content": "Clear messages indicating which required environment variables are missing or empty"
+            },
+            {
+              "title": "Type Conversion Failures",
+              "content": "Detailed explanations when values cannot be converted to the specified type"
+            },
+            {
+              "title": "Circular References",
+              "content": "Detection and reporting of circular variable references with full reference chain"
+            },
+            {
+              "title": "File Access Issues",
+              "content": "Specific error messages for file not found, permission denied, and other I/O errors"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "use-cases",
+      "title": "Use Cases",
+      "icon": "fas fa-lightbulb",
+      "description": "Common use cases and implementation examples",
+      "content": [
+        {
+          "type": "code",
+          "language": "javascript",
+          "title": "Development Environment",
+          "content": "// .env.development\nconst env = require('@vectrolabs/env');\n\nenv.config({\n  file: '.env.development',\n  schema: {\n    required: ['DATABASE_URL'],\n    variables: {\n      PORT: { type: 'number', default: 3000 },\n      DEBUG: { type: 'boolean', default: true },\n      LOG_LEVEL: { default: 'debug' }\n    }\n  }\n});"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "title": "Production Configuration",
+          "content": "// Production with validation\nconst env = require('@vectrolabs/env');\n\nconst { parsed } = env.config({\n  file: '.env.production',\n  override: true,\n  schema: {\n    required: ['DATABASE_URL', 'JWT_SECRET', 'REDIS_URL'],\n    variables: {\n      PORT: { type: 'number', default: 8080 },\n      WORKERS: { type: 'number', default: 4 },\n      ENABLE_CACHE: { type: 'boolean', default: true },\n      ALLOWED_ORIGINS: { type: 'array' }\n    }\n  }\n});\n\nconsole.log(`Server starting on port ${process.env.PORT}`);"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "title": "Configuration Export",
+          "content": "// Export current environment to file\nconst env = require('@vectrolabs/env');\n\n// Backup current configuration\nenv.export('.env.backup');\n\n// Export filtered configuration\nenv.export('.env.public', {\n  exclude: ['JWT_SECRET', 'DATABASE_PASSWORD', 'API_KEYS']\n});"
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "title": "Security Best Practices",
+      "icon": "fas fa-lock",
+      "description": "Security considerations and best practices",
+      "content": [
+        {
+          "type": "alert",
+          "variant": "yellow",
+          "icon": "exclamation-triangle",
+          "content": "<strong>Important:</strong> Never commit .env files to version control. Always add them to your .gitignore file."
+        },
+        {
+          "type": "grid",
+          "items": [
+            {
+              "title": "✅ Version Control",
+              "content": "Never commit .env files to version control systems like Git"
+            },
+            {
+              "title": "✅ Environment Separation",
+              "content": "Use different .env files for different environments (dev, staging, prod)"
+            },
+            {
+              "title": "✅ Schema Validation",
+              "content": "Validate required variables with schemas to catch missing configurations early"
+            },
+            {
+              "title": "✅ Export Filtering",
+              "content": "Use the exclude option when exporting to avoid exposing sensitive data"
+            },
+            {
+              "title": "✅ File Permissions",
+              "content": "Set appropriate file permissions on .env files (600 or 640)"
+            },
+            {
+              "title": "✅ Secrets Management",
+              "content": "Consider using dedicated secrets management tools for production environments"
+            }
+          ]
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "title": ".gitignore Example",
+          "content": "# Environment files\n.env\n.env.local\n.env.*.local\n.env.development\n.env.production\n\n# Backup files\n.env.backup"
+        }
+      ]
+    }
+  ]
+}
